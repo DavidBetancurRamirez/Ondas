@@ -1,8 +1,17 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Plot from 'react-plotly.js';
 import ControlledInput from './ControlledInput';
 
 const WaveSimulation = () => {
+    const [animationFrame, setAnimationFrame] = useState(0);
+
+    useEffect(() => {
+        const intervalId = setInterval(updateWaveData, 1000 / 30); // Set the desired frame rate by changing the number (30 FPS in this example)
+      
+        // Clean up the interval on component unmount
+        return () => clearInterval(intervalId);
+    }, [animationFrame]);
+
     // Define state variables and their setters
     const [params, setParams] = useState({
         frequencyP: 1,
@@ -17,6 +26,14 @@ const WaveSimulation = () => {
         ...params,
         [e.target.name]: e.target.value,
         });
+    };
+
+    const updateWaveData = () => {
+        // Update wave data based on the current animation frame
+        // You can use the animationFrame variable to calculate the new wave data
+        
+        // Increment the animation frame
+        setAnimationFrame((prevFrame) => (prevFrame + 1) % 100); // Set the desired frame rate by changing the number in the modulo operation
     };
 
     // Calculate wave data for Plotly
@@ -73,12 +90,59 @@ const WaveSimulation = () => {
                 />
             </section> 
 
-            <Plot 
-                data={[waveDataP, waveDataS]} 
-                layout={{ width: 800, height: 600 }} 
+            <Plot
+                data={[waveDataP, waveDataS]}
+                layout={layout}
+                frames={[
+                  { data: [waveDataP, waveDataS], name: animationFrame.toString() }
+                ]}
+                config={{
+                  displayModeBar: false,
+                  staticPlot: true,
+                  scrollZoom: false,
+                  doubleClick: false,
+                  displaylogo: false,
+                  modeBarButtonsToRemove: ['toImage', 'zoom2d', 'pan2d', 'select2d', 'lasso2d', 'zoomIn2d', 'zoomOut2d', 'autoScale2d', 'resetScale2d']
+                }}
             />
         </article>
     );
 };
+
+const layout = {
+    title: 'Seismic Waves',
+    xaxis: {
+      title: 'Time (s)',
+      showgrid: false,
+      zeroline: false,
+      showline: false,
+      autotick: true,
+      ticks: 'outside',
+      ticklen: 5,
+      tickwidth: 2,
+      tickcolor: 'black'
+    },
+    yaxis: {
+      title: 'Amplitude',
+      showgrid: false,
+      zeroline: false,
+      showline: false,
+      autotick: true,
+      ticks: 'outside',
+      ticklen: 5,
+      tickwidth: 2,
+      tickcolor: 'black'
+    },
+    margin: {
+      l: 60,
+      r: 0,
+      b: 50,
+      t: 50,
+      pad: 4
+    },
+    showlegend: false,
+    plot_bgcolor: 'rgba(0,0,0,0)',
+    paper_bgcolor: 'rgba(0,0,0,0)'
+  };
 
 export default WaveSimulation;
