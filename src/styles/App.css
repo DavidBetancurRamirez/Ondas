@@ -1,0 +1,32 @@
+#root {
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.division {
+    display: flex;
+    align-items: center;
+}
+
+.inputs {
+  flex-direction: column;
+  margin-right: 30px;
+}
+
+.controlador {
+  margin-bottom: 60px;
+}
+
+input {
+  cursor: pointer;
+  margin: 0 5px;
+}
+
+label {
+  color: #BDECB6;
+}
+
+p {
+  color: #fe6961;
+}
