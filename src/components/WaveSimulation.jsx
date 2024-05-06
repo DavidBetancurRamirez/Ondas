@@ -14,8 +14,8 @@ const WaveSimulation = () => {
     // Function to handle input change
     const handleInputChange = (e) => {
         setParams({
-        ...params,
-        [e.target.name]: e.target.value,
+            ...params,
+            [e.target.name]: e.target.value
         });
     };
 
@@ -48,37 +48,71 @@ const WaveSimulation = () => {
                     value={params.frequencyP}
                     onChange={handleInputChange}
                     unit="Hz"
-                    label="Frequency P (Hz)"
+                    label="Frequencia P (Hz)"
                 />
                 <ControlledInput
                     name="amplitudeP"
                     value={params.amplitudeP}
                     onChange={handleInputChange}
                     unit="a.u."
-                    label="Amplitude P (a.u.)"
+                    label="Amplitud P (a.u.)"
                 />
                 <ControlledInput
                     name="frequencyS"
                     value={params.frequencyS}
                     onChange={handleInputChange}
                     unit="Hz"
-                    label="Frequency S (Hz)"
+                    label="Frequencia S (Hz)"
                 />
                 <ControlledInput
                     name="amplitudeS"
                     value={params.amplitudeS}
                     onChange={handleInputChange}
                     unit="a.u."
-                    label="Amplitude S (a.u.)"
+                    label="Amplitud S (a.u.)"
                 />
             </section> 
 
             <Plot 
                 data={[waveDataP, waveDataS]} 
-                layout={{ width: 800, height: 600 }} 
+                layout={layout} 
             />
         </article>
     );
+};
+
+const layout = {
+    title: 'Ondas sismicas',
+    xaxis: {
+        title: 'Tiempo (s)',
+        showgrid: false,
+        zeroline: false,
+        showline: false,
+        autotick: true,
+        ticks: 'outside',
+        ticklen: 5,
+        tickwidth: 2,
+    },
+    yaxis: {
+        title: 'Amplitud (Hz)',
+        zeroline: false,
+        showline: false,
+        autotick: true,
+        ticks: 'outside',
+        ticklen: 5,
+        tickwidth: 2,
+    },
+    margin: {
+        l: 50,
+        r: 0,
+        b: 50,
+        t: 30,
+        pad: 4
+    },
+    plot_bgcolor: 'rgba(0,0,0,0)',
+    paper_bgcolor: 'rgba(0,0,0,0)',
+    width: 800, 
+    height: 600
 };
 
 export default WaveSimulation;
